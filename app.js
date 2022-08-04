@@ -9,6 +9,7 @@ const authRouter = require("./routes/UserRoute/user");
 const goalRouter = require("./routes/GoalRoute/goal");
 const habitRouter = require("./routes/Habit/habit");
 const healthTrackRouter = require("./routes/HealthTracking/medicineTrack");
+const appointmentTrackRouter = require("./routes/HealthTracking/appointmentTrack");
 // dotEnv Configuration
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/user", authRouter);
 app.use("/api/goal", goalRouter);
 app.use("/api/habit", habitRouter);
 app.use("/api/health", healthTrackRouter);
+app.use("/api/health", appointmentTrackRouter);
 // Listening to a server
 app.listen(process.env.PORT || 8000, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
