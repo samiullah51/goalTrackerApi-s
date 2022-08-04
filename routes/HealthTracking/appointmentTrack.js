@@ -52,7 +52,7 @@ router.put("/appointmenttrack/edit/:id", verifyToken, async (req, res) => {
         nextAppointDate: req.body.nextAppointDate,
         doctorRemarks: req.body.doctorRemarks,
         testDiagnosis: req.body.testDiagnosis,
-        image: req.body.image,
+        files: req.body.files,
       },
     });
     res

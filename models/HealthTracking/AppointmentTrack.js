@@ -33,8 +33,8 @@ const AppointmentTrack = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
+  files: {
+    type: Array,
   },
 });
 
