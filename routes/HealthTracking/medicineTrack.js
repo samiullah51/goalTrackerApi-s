@@ -2,8 +2,8 @@ const MedicineTracking = require("../../models/HealthTracking/MedicineTracking")
 const router = require("express").Router();
 const { verifyToken } = require("../UserRoute/verifyToken");
 
-// Add new Habit to a Current User
-router.post("/medicinetrack/add", verifyToken, async (req, res) => {
+// Add new Medecine to a Current User
+router.post("/add", verifyToken, async (req, res) => {
   const newMedicineTrack = new MedicineTracking(req.body);
   try {
     const savedMedicineTrack = await newMedicineTrack.save();
@@ -14,7 +14,7 @@ router.post("/medicinetrack/add", verifyToken, async (req, res) => {
 });
 
 // Get all the medicineTracks of the current user
-router.get("/medicinetrack/all", verifyToken, async (req, res) => {
+router.get("/all", verifyToken, async (req, res) => {
   const currentUser = req.user.id;
   try {
     const allMedicineTracks = await MedicineTracking.find({
@@ -27,20 +27,17 @@ router.get("/medicinetrack/all", verifyToken, async (req, res) => {
 });
 
 // Get a specific MedicineTrack of the current user
-router.get("/medicinetrack/findtrack/:id", verifyToken, async (req, res) => {
-  const currentUser = req.user.id;
+router.get("/findtrack/:id", verifyToken, async (req, res) => {
   try {
-    const foundMedicineTrack = await MedicineTracking.findOne({
-      userId: currentUser,
-    });
+    const foundMedicineTrack = await MedicineTracking.findById(req.params.id);
     res.status(200).json(foundMedicineTrack);
   } catch (err) {
     res.status(500).json(err.message);
   }
 });
 
-// Edit a habit of the current user
-router.put("/medicinetrack/edit/:id", verifyToken, async (req, res) => {
+// Edit a medicine track of the current user
+router.put("/edit/:id", verifyToken, async (req, res) => {
   const updatedOne = await MedicineTracking.findById(req.params.id);
   try {
     const editedMedicineTrack = await updatedOne.updateOne({
@@ -78,7 +75,7 @@ router.put("/medicinetrack/edit/:id", verifyToken, async (req, res) => {
 });
 
 // Delete a specific medicineTrack of the current user
-router.delete("/medicinetrack/delete/:id", verifyToken, async (req, res) => {
+router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
     const deletedMedicineTrack = await MedicineTracking.findByIdAndDelete(
       req.params.id

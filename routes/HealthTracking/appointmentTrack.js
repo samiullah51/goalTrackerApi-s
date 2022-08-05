@@ -2,8 +2,8 @@ const AppointmentTracking = require("../../models/HealthTracking/AppointmentTrac
 const router = require("express").Router();
 const { verifyToken } = require("../UserRoute/verifyToken");
 
-// Add new Habit to a Current User
-router.post("/appointmenttrack/add", verifyToken, async (req, res) => {
+// Add new Appointment to a Current User
+router.post("/add", verifyToken, async (req, res) => {
   const newAppointment = new AppointmentTracking(req.body);
   try {
     const savedAppointment = await newAppointment.save();
@@ -13,8 +13,8 @@ router.post("/appointmenttrack/add", verifyToken, async (req, res) => {
   }
 });
 
-// Get all the medicineTracks of the current user
-router.get("/appointmenttrack/all", verifyToken, async (req, res) => {
+// Get all the Appointment of the current user
+router.get("/all", verifyToken, async (req, res) => {
   const currentUser = req.user.id;
   try {
     const allAppointmentTracks = await AppointmentTracking.find({
@@ -26,21 +26,20 @@ router.get("/appointmenttrack/all", verifyToken, async (req, res) => {
   }
 });
 
-// Get a specific MedicineTrack of the current user
-router.get("/appointmenttrack/findtrack/:id", verifyToken, async (req, res) => {
-  const currentUser = req.user.id;
+// Get a specific Appointment of the current user
+router.get("/findtrack/:id", verifyToken, async (req, res) => {
   try {
-    const foundAppointmentTrack = await AppointmentTracking.findOne({
-      userId: currentUser,
-    });
+    const foundAppointmentTrack = await AppointmentTracking.findById(
+      req.params.id
+    );
     res.status(200).json(foundAppointmentTrack);
   } catch (err) {
     res.status(500).json(err.message);
   }
 });
 
-// Edit a habit of the current user
-router.put("/appointmenttrack/edit/:id", verifyToken, async (req, res) => {
+// Edit a Appointment of the current user
+router.put("/edit/:id", verifyToken, async (req, res) => {
   const updatedOne = await AppointmentTracking.findById(req.params.id);
   try {
     const editedAppointmentTrack = await updatedOne.updateOne({
@@ -63,8 +62,8 @@ router.put("/appointmenttrack/edit/:id", verifyToken, async (req, res) => {
   }
 });
 
-// Delete a specific medicineTrack of the current user
-router.delete("/appointmenttrack/delete/:id", verifyToken, async (req, res) => {
+// Delete a specific Appointment of the current user
+router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
     const deletedAppointmentTrack = await AppointmentTracking.findByIdAndDelete(
       req.params.id
